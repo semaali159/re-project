@@ -43,9 +43,9 @@ const register = asynchandler(async (req, res) => {
   await sendEmail(req.body.email, otp);
   elderly.otpnum = otp;
   const result = await elderly.save();
-  const token = elderly.generateToken();
+  // const token = elderly.generateToken();
   const { password, ...other } = result._doc;
-  res.status(201).json({ ...other, token });
+  res.status(201).json({ ...other });
 });
 
 /**
