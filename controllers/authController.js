@@ -75,7 +75,7 @@ const login = asynchandler(async (req, res) => {
     const { password, ...other } = elderly._doc;
     res.status(201).json({ ...other, token });
   } else {
-    res.status(500).json({ message: "please verify your email first" });
+    return res.status(400).json({ message: "please verify your email first" });
   }
 });
 
@@ -90,7 +90,7 @@ const verification = asynchandler(async (req, res) => {
     elderly.save();
     res.status(201).json({ message: "verify is done " });
   } else {
-    res.status(400).json({ message: "invalid email or otpnum " });
+    return res.status(400).json({ message: "invalid email or otpnum " });
   }
 });
 module.exports = {
