@@ -45,7 +45,7 @@ const register = asynchandler(async (req, res) => {
   const result = await elderly.save();
   // const token = elderly.generateToken();
   const { password, ...other } = result._doc;
-  res.status(201).json({ ...other });
+  return res.status(201).json({ ...other });
 });
 
 /**
@@ -73,7 +73,7 @@ const login = asynchandler(async (req, res) => {
     }
     const token = elderly.generateToken();
     const { password, ...other } = elderly._doc;
-    res.status(201).json({ ...other, token });
+    return res.status(201).json({ ...other, token });
   } else {
     return res.status(400).json({ message: "please verify your email first" });
   }
@@ -88,7 +88,7 @@ const verification = asynchandler(async (req, res) => {
   if (req.body.otpnum == elderly.otpnum) {
     elderly.verified = true;
     elderly.save();
-    res.status(201).json({ message: "verify is done " });
+    return res.status(201).json({ message: "verify is done " });
   } else {
     return res.status(400).json({ message: "invalid email or otpnum " });
   }
