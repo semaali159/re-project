@@ -25,7 +25,7 @@ app.use("/", (req, res) => {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Honey World</title>
+    <title>Enaya</title>
     <style>
       body {
         margin: 0;
@@ -52,7 +52,7 @@ app.use("/", (req, res) => {
   </head>
   <body>
     <div class="header">
-      <b><h1>Welcome to our health Care app</h1></b>
+      <b><h1>Welcome to our Enaya app</h1></b>
     </div>
   </body>
   </html>
