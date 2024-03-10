@@ -14,14 +14,20 @@ const ActivitySchema = new mongoose.Schema(
       maxlength: 200,
       required: true,
     },
-    repeat: {
+    repeatNum: {
       type: number,
       required: true,
     },
-    time: {
-      type: Date,
+    repeat: {
+      type: String,
       required: true,
+      enum: ["soft cover", "hard cover"],
     },
+    // time: {
+    //   type: Date,
+    //   required: true,
+    // },
+
     endtime: {
       type: Date,
       required: true,

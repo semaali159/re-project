@@ -39,15 +39,12 @@ const register = asynchandler(async (req, res) => {
   }
   const otp = generateRandomNumber(1000, 9999);
 
-  // console.log(`*****${otp}`);
-  // console.log(`**${elderly.otpnum}`);
   await sendEmail(req.body.email, otp);
   elderly.otpnum = otp;
-  // console.log(`**${elderly.otpnum}**`);
   const result = await elderly.save();
-  const token = elderly.generateToken();
+  // const token = elderly.generateToken();
   const { password, ...other } = result._doc;
-  res.status(201).json({ ...other, token });
+  return res.status(201).json({ ...other });
 });
 
 /**
@@ -75,9 +72,9 @@ const login = asynchandler(async (req, res) => {
     }
     const token = elderly.generateToken();
     const { password, ...other } = elderly._doc;
-    res.status(201).json({ ...other, token });
+    return res.status(201).json({ ...other, token });
   } else {
-    res.status(500).json({ message: "please verify your email first" });
+    return res.status(400).json({ message: "please verify your email first" });
   }
 });
 
@@ -90,9 +87,9 @@ const verification = asynchandler(async (req, res) => {
   if (req.body.otpnum == elderly.otpnum) {
     elderly.verified = true;
     elderly.save();
-    res.status(201).json({ message: "verify is done " });
+    return res.status(201).json({ message: "verify is done " });
   } else {
-    res.status(400).json({ message: "invalid email or otpnum " });
+    return res.status(400).json({ message: "invalid email or otpnum " });
   }
 });
 module.exports = {
