@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/profile", require("./routes/profile"));
-
+app.use("/api/medicin", require("./routes/medicin"));
 app.use("/", (req, res) => {
   res.send(`<!DOCTYPE html>
   <html lang="en">
