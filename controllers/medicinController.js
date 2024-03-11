@@ -5,6 +5,17 @@ const {
   validateUpdateMedicin,
 } = require("../model/medicine");
 /**
+ * @desc get all medicins
+ * @route /api/medicin
+ * @method get
+ * @access puplic
+ * */ 
+const getAllMedicin=asynchandler(async (req,res)=>{
+  const medicins = await Medicin.find()
+  res.status(200).json(users)
+
+})
+/**
  * @desc add medicin
  * @route /api/medicin
  * @method post
@@ -50,4 +61,13 @@ const updatemedicin = asynchandler(async (req, res) => {
   );
   res.status(200).json(updateMedicin);
 });
-module.exports = { addMedicin, updatemedicin };
+const deleteMedicin = asynchandler(async (req, res) => {
+  const medicin = await Medicin.findById(req.params.id);
+  if (medicin) {
+    await Medicin.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "medicin has been deleted" });
+  } else {
+    res.status(404).json({ message: "medicin not found" });
+  }
+});
+module.exports = { addMedicin,getAllMedicin, updatemedicin, deleteMedicin };
