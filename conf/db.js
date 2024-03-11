@@ -12,4 +12,5 @@ async function connectToDB (){
 //         .connect(process.env.MONGO_URI)
 //         .then(()=> console.log('connected to mongoDB'))
 //         .catch((error)=>console.log('connected faild to mongoDB',error))
+
 module.exports=connectToDB
