@@ -39,6 +39,8 @@ const register = asynchandler(async (req, res) => {
   }
   const otp = generateRandomNumber(1000, 9999);
 
+  // console.log(`*****${otp}`);
+  // console.log(`**${elderly.otpnum}`);
   await sendEmail(req.body.email, otp);
   elderly.otpnum = otp;
   const result = await elderly.save();
