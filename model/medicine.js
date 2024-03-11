@@ -21,7 +21,7 @@ const MedicinSchema = new mongoose.Schema(
     },
     startDate: {
       type: Date,
-      required: true,
+      required: false,
     },
     endDate: {
       type: Date,
@@ -37,7 +37,7 @@ function validateAddMedicin(obj) {
   const schema = Joi.object({
     medicinName: Joi.string().min(3).max(30).required(),
     description: Joi.string().min(3).max(200).required(),
-    startDate: Joi.date().required(),
+    startDate: Joi.date(),
     endDate: Joi.date().required(),
   });
   return schema.validate(obj);
