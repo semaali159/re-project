@@ -13,3 +13,4 @@ router.post("/", verifyToken, addMedicin);
 router.get("/", verifyToken, getAllMedicin);
 
 module.exports = router;
+ 
