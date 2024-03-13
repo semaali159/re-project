@@ -10,11 +10,21 @@ const {
  * @method get
  * @access puplic
  * */ 
-const getAllMedicin=asynchandler(async (req,res)=>{
-  const medicins = await Medicin.find()
-  res.status(200).json(users)
-
-})
+const getAllMedicin = asynchandler(async (req, res) => {
+  const token = req.headers.token;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  console.log(decoded);
+  const c_id = decoded.id;
+  const medicins = await Medicin.find({ elderly: c_id });
+  console.log(c_id);
+  if (medicins) {
+    return res.status(200).json(medicins);
+  } else {
+    return res
+      .status(400)
+      .json({ message: "No medications have been added yet " });
+  }
+});
 /**
  * @desc add medicin
  * @route /api/medicin
