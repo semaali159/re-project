@@ -4,6 +4,7 @@ const {
   validateAddMedicin,
   validateUpdateMedicin,
 } = require("../model/medicine");
+const jwt = require("jsonwebtoken")
 /**
  * @desc get all medicins
  * @route /api/medicin
