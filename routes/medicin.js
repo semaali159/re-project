@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addMedicin,
   updatemedicin,
+  getAllMedicin
 } = require("../controllers/medicinController");
 const {
   verifyToken,
