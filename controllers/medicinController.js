@@ -24,7 +24,7 @@ const getAllMedicin = asynchandler(async (req, res) => {
       .status(400)
       .json({ message: "No medications have been added yet " });
   }
-});
+});  
 /**
  * @desc add medicin
  * @route /api/medicin
