@@ -15,6 +15,7 @@ const getAllMedicin = asynchandler(async (req, res) => {
   // const token = req.headers.token;
   // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   // console.log(decoded);
+  
   const c_id = req.params.id;
   const medicins = await Medicin.find({ elderly: c_id });
   console.log(c_id);
