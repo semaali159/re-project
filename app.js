@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const connectToDB = require("./conf/db");
 const cors = require("cors");
+const { notFound, errorHandler } = require("./middleware/errors");
 //connection to database
 connectToDB();
 //init app
@@ -58,6 +59,10 @@ app.use("/", (req, res) => {
   </html>
   `);
 });
+// Error Handler Middleware
+app.use(notFound);
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
   console.log(`server is running in ${process.env.NODE_ENV}on port ${PORT}`)
