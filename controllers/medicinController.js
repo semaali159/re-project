@@ -33,20 +33,20 @@ const getAllMedicin = asynchandler(async (req, res) => {
  * @access puplic
  * */
 const getMedicinByDate = asynchandler(async (req, res) => {
-  const currentTime = Date.now();
-  const date = new Date(currentTime);
-  const medicins = await Medicin.find();
-  const endDatee = medicins.endDate;
-  // const homeMed = await medicins.find({ endDate: { $gt: date } });
-  const homeMed = await medicins.filter(
-    (medicins) => medicins.endDate != date && medicins.endDate > date
-  );
-  // const homeMed = await medicins.find({ endDatee: { $gte: date } });
-  if (homeMed) {
-    return res.status(200).json(homeMed);
-  } else {
-    return res.status(200).json({ message: "there no medicin for today" });
-  }
+  // const currentTime = Date.now();
+  // const date = new Date(currentTime);
+  // const medicins = await Medicin.find();
+  // const endDatee = medicins.endDate;
+  // // const homeMed = await medicins.find({ endDate: { $gt: date } });
+  // const homeMed = await medicins.filter(
+  //   (medicins) => medicins.endDate != date && medicins.endDate > date
+  // );
+  // // const homeMed = await medicins.find({ endDatee: { $gte: date } });
+  // if (homeMed) {
+  //   return res.status(200).json(homeMed);
+  // } else {
+  //   return res.status(200).json({ message: "there no medicin for today" });
+  // }
 });
 /**
  * @desc add medicin
@@ -115,4 +115,3 @@ module.exports = {
   deleteMedicin,
   getMedicinByDate,
 };
- 
