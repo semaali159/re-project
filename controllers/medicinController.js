@@ -38,10 +38,10 @@ const getMedicinByDate = asynchandler(async (req, res) => {
   const medicins = await Medicin.find();
   const endDatee = medicins.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });
-  // const homeMed = await medicins.filter(
-  //   (medicins) => medicins.endDate != date && medicins.endDate > date
-  // );
-  const homeMed = await medicins.find({ endDatee: { $gte: date } });
+  const homeMed = await medicins.filter(
+    (medicins) => medicins.endDate != date && medicins.endDate > date
+  );
+  // const homeMed = await medicins.find({ endDatee: { $gte: date } });
   if (homeMed) {
     return res.status(200).json(homeMed);
   } else {
