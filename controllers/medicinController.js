@@ -62,7 +62,7 @@ const addMedicin = asynchandler(async (req, res) => {
   const medicin = new Medicin({
     medicinName: req.body.medicinName,
     description: req.body.description,
-    startDate: Date.parse(req.body.startDate),
+    startDate: req.body.startDate,
     endDate: Date.parse(req.body.endDate),
     elderly: req.user.id,
   });
@@ -88,7 +88,7 @@ const updatemedicin = asynchandler(async (req, res) => {
         $set: {
           medicinName: req.body.medicinName,
           description: req.body.description,
-          startDate: Date.parse(req.body.startDate),
+          startDate: req.body.startDate,
           endDate: Date.parse(req.body.endDate),
         },
       },
