@@ -15,7 +15,6 @@ const getAllMedicin = asynchandler(async (req, res) => {
   // const token = req.headers.token;
   // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   // console.log(decoded);
-  
   const c_id = req.params.id;
   const medicins = await Medicin.find({ elderly: c_id });
   console.log(c_id);
@@ -63,7 +62,7 @@ const addMedicin = asynchandler(async (req, res) => {
   const medicin = new Medicin({
     medicinName: req.body.medicinName,
     description: req.body.description,
-    startDate: req.body.startDate,
+    startDate: Date.parse(req.body.startDate),
     endDate: Date.parse(req.body.endDate),
     elderly: req.user.id,
   });
@@ -89,8 +88,8 @@ const updatemedicin = asynchandler(async (req, res) => {
         $set: {
           medicinName: req.body.medicinName,
           description: req.body.description,
-          startDate: req.body.startDate,
-          endDate: req.body.endDate,
+          startDate: Date.parse(req.body.startDate),
+          endDate: Date.parse(req.body.endDate),
         },
       },
       { new: true }
