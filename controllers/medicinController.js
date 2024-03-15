@@ -82,6 +82,7 @@ const updatemedicin = asynchandler(async (req, res) => {
   }
   const updmedicin = await Medicin.findById(req.params.id);
   if (updmedicin) {
+    let previousEndDate = updmedicin.endDate;
     const updateMedicin = await Medicin.findByIdAndUpdate(
       req.params.id,
       {
@@ -89,7 +90,9 @@ const updatemedicin = asynchandler(async (req, res) => {
           medicinName: req.body.medicinName,
           description: req.body.description,
           startDate: req.body.startDate,
-          endDate: Date.parse(req.body.endDate),
+          endDate: req.body.endDate
+            ? Date.parse(req.body.endDate)
+            : previousEndDate,
         },
       },
       { new: true }
