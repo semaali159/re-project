@@ -1,7 +1,8 @@
 const express = require("express");
 require("dotenv").config();
-const connectToDB = require("./config/db");
+const connectToDB = require("./conf/db");
 const cors = require("cors");
+const { notFound, errorHandler } = require("./middleware/errors");
 //connection to database
 connectToDB();
 //init app
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/profile", require("./routes/profile"));
 app.use("/api/medicin", require("./routes/medicin"));
+app.use("/api/activity", require("./routes/activity"));
 app.use("/", (req, res) => {
   res.send(`<!DOCTYPE html>
   <html lang="en">
@@ -58,6 +60,10 @@ app.use("/", (req, res) => {
   </html>
   `);
 });
+// Error Handler Middleware
+app.use(notFound);
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
   console.log(`server is running in ${process.env.NODE_ENV}on port ${PORT}`)

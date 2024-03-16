@@ -1,11 +1,11 @@
 const express = require("express");
 const {
-  addMedicin,
-  updatemedicin,
-  deleteMedicin,
-  getAllMedicin,
-  getMedicinByDate,
-} = require("../controllers/medicinController");
+  addActivity,
+  updateActivity,
+  deleteActiviy,
+  getAllActivity,
+  getActivityByDate,
+} = require("../controllers/activityController");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
@@ -14,13 +14,13 @@ const {
 const router = express.Router();
 router
   .route("/:id")
-  .get(verifyTokenAndOnlyUser, getAllMedicin)
-  .delete(verifyToken, deleteMedicin)
-  .put(verifyToken, updatemedicin);
+  .get(verifyTokenAndOnlyUser, getAllActivity)
+  .delete(verifyToken, deleteActiviy)
+  .put(verifyToken, updateActivity);
 router
   .route("/")
-  .get(verifyToken, getMedicinByDate)
-  .post(verifyToken, addMedicin);
+  .get(verifyToken, getActivityByDate)
+  .post(verifyToken, addActivity);
 // router.get("/", verifyToken, getMedicinByDate);
 // router.post("/", verifyToken, addMedicin);
 // router.put("/:id", verifyToken, updatemedicin);
