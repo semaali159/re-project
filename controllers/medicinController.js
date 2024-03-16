@@ -4,6 +4,7 @@ const {
   validateAddMedicin,
   validateUpdateMedicin,
 } = require("../model/medicine");
+const jwt = require("jsonwebtoken");
 /**
  * @desc add medicin
  * @route /api/medicin
@@ -74,9 +75,12 @@ const getAllMedicin = asynchandler(async (req, res) => {
   }
 });
 const getMedicinByDate = asynchandler(async (req, res) => {
+  const token = req.headers.token;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const c_id = decoded.id;
   const currentTime = Date.now();
   const date = new Date(currentTime);
-  const medicins = await Medicin.find();
+  const medicins = await Medicin.find({ elderly: c_id });
   // const endDate = activities.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });
   const homeMed = await medicins.filter(
