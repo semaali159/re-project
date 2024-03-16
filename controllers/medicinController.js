@@ -58,6 +58,37 @@ const updatemedicin = asynchandler(async (req, res) => {
     return res.status(404).json({ message: "this medicin is not found" });
   }
 });
+const getAllMedicin = asynchandler(async (req, res) => {
+  // const token = req.headers.token;
+  // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  // console.log(decoded);
+  const c_id = req.params.id;
+  const medicins = await Medicin.find({ elderly: c_id });
+  console.log(c_id);
+  if (medicins) {
+    return res.status(200).json(medicins);
+  } else {
+    return res
+      .status(400)
+      .json({ message: "No medicins have been added yet " });
+  }
+});
+const getMedicinByDate = asynchandler(async (req, res) => {
+  const currentTime = Date.now();
+  const date = new Date(currentTime);
+  const medicins = await Medicin.find();
+  // const endDate = activities.endDate;
+  // const homeMed = await medicins.find({ endDate: { $gt: date } });
+  const homeMed = await medicins.filter(
+    (medicins) => medicins.endDate != date && medicins.endDate > date
+  );
+  // const homeMed = await medicins.find({ endDatee: { $gte: date } });
+  if (homeMed && homeMed.length > 0) {
+    return res.status(200).json(homeMed);
+  } else {
+    return res.status(200).json({ message: "there no medicin for today" });
+  }
+});
 const deleteMedicin = asynchandler(async (req, res) => {
   const medicin = await Medicin.findById(req.params.id);
   if (medicin) {
