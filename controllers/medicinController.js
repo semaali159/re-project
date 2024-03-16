@@ -4,50 +4,6 @@ const {
   validateAddMedicin,
   validateUpdateMedicin,
 } = require("../model/medicine");
-const jwt = require("jsonwebtoken");
-/**
- * @desc get all user's medicins
- * @route /api/medicin/id
- * @method get
- * @access puplic
- * */
-const getAllMedicin = asynchandler(async (req, res) => {
-  // const token = req.headers.token;
-  // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  // console.log(decoded);
-  const c_id = req.params.id;
-  const medicins = await Medicin.find({ elderly: c_id });
-  console.log(c_id);
-  if (medicins) {
-    return res.status(200).json(medicins);
-  } else {
-    return res
-      .status(400)
-      .json({ message: "No medications have been added yet " });
-  }
-});
-/**
- * @desc get medicin for home
- * @route /api/medicin
- * @method get
- * @access puplic
- * */
-const getMedicinByDate = asynchandler(async (req, res) => {
-  const currentTime = Date.now();
-  const date = new Date(currentTime);
-  const medicins = await Medicin.find();
-  // const endDate = medicins.endDate;
-  // const homeMed = await medicins.find({ endDate: { $gt: date } });
-  const homeMed = await medicins.filter(
-    (medicins) => medicins.endDate != date && medicins.endDate > date
-  );
-  // const homeMed = await medicins.find({ endDatee: { $gte: date } });
-  if (homeMed) {
-    return res.status(200).json(homeMed);
-  } else {
-    return res.status(200).json({ message: "there no medicin for today" });
-  }
-});
 /**
  * @desc add medicin
  * @route /api/medicin

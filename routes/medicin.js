@@ -27,3 +27,4 @@ router
 // router.delete("/:id", verifyToken, deleteMedicin);
 // router.get("/id", verifyToken, getAllMedicin);
 module.exports = router;
+
