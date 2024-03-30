@@ -8,7 +8,7 @@ admin.initializeApp({
 });
 //senderid 1080081962593
 // const certPath = admin.credential.cert(serviceAccount);
-
+ 
 // var FCM = new fcm(serviceAccount.private_key);
 sendPushNotification = asynchandler(async (req, res) => {
   const registrationToken =req.body.token
