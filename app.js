@@ -21,6 +21,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/profile", require("./routes/profile"));
 app.use("/api/medicin", require("./routes/medicin"));
 app.use("/api/activity", require("./routes/activity"));
+app.use("/api/notification", require("./routes/notification"));
 app.use("/", (req, res) => {
   res.send(`<!DOCTYPE html>
   <html lang="en">
@@ -68,4 +69,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
   console.log(`server is running in ${process.env.NODE_ENV}on port ${PORT}`)
 );
-
