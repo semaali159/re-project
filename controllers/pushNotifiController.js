@@ -9,7 +9,7 @@ admin.initializeApp({
 //senderid 1080081962593
 // const certPath = admin.credential.cert(serviceAccount);
 
-var FCM = new fcm(serviceAccount.private_key);
+// var FCM = new fcm(serviceAccount.private_key);
 sendPushNotification = asynchandler(async (req, res) => {
   const registrationToken =
     "d8jE08EsSaqGOIyR4tp0W-:APA91bEk1zqS4kzSVLk7vKk8uMRd1dc3KtvH0fW2DErlnUgLxqBWxsjdGN72YJUfPZ_0r2W2VHnvcgHd3pR31taP7SHQHxb-ob4OSLASmtPZeBIjorJmy5t1zKQ1WnqvuyucDaSy6moG";
