@@ -4,6 +4,7 @@ const {
   validateAddActivity,
   validateUpdateActivity,
 } = require("../model/activity");
+const jwt = require("jsonwebtoken")
 const getAllActivity = asynchandler(async (req, res) => {
   // const token = req.headers.token;
   // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
