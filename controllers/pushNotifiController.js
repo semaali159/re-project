@@ -1,6 +1,6 @@
 const admin = require("firebase-admin");
 const fcm = require("fcm-node");
-const serviceAccount = require("../conf/test.json");
+const serviceAccount = require("../test.json");
 const asynchandler = require("express-async-handler");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

@@ -1,7 +1,4 @@
 node_modules
 .env
 images
-../conf/test.json
-../conf/donkey.json
-../conf/enas.json
-../conf/push-notif-key.json
+test.json
