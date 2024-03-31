@@ -21,6 +21,8 @@ const addMedicin = asynchandler(async (req, res) => {
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: Date.parse(req.body.endDate),
+    repeat: req.body.repeat,
+    EnableNotification: req.body.EnableNotification,
     elderly: req.user.id,
   });
   const result = await medicin.save();
@@ -50,6 +52,8 @@ const updatemedicin = asynchandler(async (req, res) => {
           endDate: req.body.endDate
             ? Date.parse(req.body.endDate)
             : previousEndDate,
+          repeat: req.body.repeat,
+          EnableNotification: req.body.EnableNotification,
         },
       },
       { new: true }

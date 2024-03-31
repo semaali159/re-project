@@ -27,6 +27,12 @@ const MedicinSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    repeat: {
+      type: Number,
+    },
+    EnableNotification: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
@@ -39,6 +45,8 @@ function validateAddMedicin(obj) {
     description: Joi.string().min(3).max(200).required(),
     startDate: Joi.date(),
     endDate: Joi.date().required(),
+    repeat: Joi.number(),
+    EnableNotification: Joi.boolean(),
   });
   return schema.validate(obj);
 }
@@ -49,6 +57,8 @@ function validateUpdateMedicin(obj) {
     description: Joi.string().min(3).max(200),
     startDate: Joi.date(),
     endDate: Joi.date(),
+    repeat: Joi.number(),
+    EnableNotification: Joi.boolean(),
   });
   return schema.validate(obj);
 }

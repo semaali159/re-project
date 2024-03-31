@@ -1,7 +1,7 @@
 const sendPushNotification = require("../controllers/pushNotifiController");
 const express = require("express");
 const router = express.Router();
-router.post("/send-notification", sendPushNotification);
+router.post("/send-notification/:id", sendPushNotification);
 module.exports = router;
 // const certPath = admin.credential.cert(serviceAccount);
 // admin.initializeApp({ credential: certPath });

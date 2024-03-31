@@ -2,76 +2,58 @@ const admin = require("firebase-admin");
 const fcm = require("fcm-node");
 const serviceAccount = require("../test.json");
 const asynchandler = require("express-async-handler");
+const cron = require("node-cron");
+const { Medicin } = require("../model/medicine");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   projectID: "testt - 24942",
 });
-//senderid 1080081962593
-// const certPath = admin.credential.cert(serviceAccount);
 
 // var FCM = new fcm(serviceAccount.private_key);
 sendPushNotification = asynchandler(async (req, res) => {
-  const registrationToken =
-    "d8jE08EsSaqGOIyR4tp0W-:APA91bEk1zqS4kzSVLk7vKk8uMRd1dc3KtvH0fW2DErlnUgLxqBWxsjdGN72YJUfPZ_0r2W2VHnvcgHd3pR31taP7SHQHxb-ob4OSLASmtPZeBIjorJmy5t1zKQ1WnqvuyucDaSy6moG";
+  const registrationToken = req.body.token;
+  const medicin = await Medicin.findById(req.params.id);
+  const flag = medicin.EnableNotification;
+  console.log(flag);
+  if (flag) {
+    const message = {
+      notification: {
+        title: "اشعاراااات  حبييييب",
+        body: "اشعار من سمى حوول",
+      },
+      data: {
+        score: "850",
+        time: "2:45",
+      },
+      token: registrationToken,
+    };
+    const repeat = 24 / medicin.repeat;
+    console.log(repeat);
+    cron.schedule(
+      "* */${repeat} * * *",
+      async () => {
+        console.log(repeat);
+        console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
+        var messaging = admin.messaging();
 
-  const message = {
-    data: {
-      score: "850",
-      time: "2:45",
-    },
-    token: registrationToken,
-  };
-
-  // Send a message to the device corresponding to the provided
-  // registration token.
-
-  var messaging = admin.messaging();
-  // messaging.send(message, function (err, resp) {
-  //   if (err) {
-  //     return res.status(500).json({ message: err });
-  //   } else {
-  //     return res.status(200).json({ message: "notification send", resp });
-  //   }
-  // });
-  // FCM.send(message, (err, response) => {
-  //   if (err) {
-  //     console.log(serviceAccount.private_key);
-
-  //     console.log("Error sending message:", err);
-  //     return res.status(500).json({ message: "error", error: err });
-  //   } else {
-  //     console.log("Successfully sent message:", response);
-  //     return res.status(200).json({ message: "successfully", response });
-  //   }
-  // });
-  messaging
-    .send(message)
-    .then((response) => {
-      // Response is a message ID string.
-      console.log("Successfully sent message:", response);
-      return res.status(200).json({ message: "successfully", response });
-    })
-    .catch((error) => {
-      console.log("Error sending message:", error);
-    });
-  // let message = {
-  //   to: "d8jE08EsSaqGOIyR4tp0W-:APA91bEk1zqS4kzSVLk7vKk8uMRd1dc3KtvH0fW2DErlnUgLxqBWxsjdGN72YJUfPZ_0r2W2VHnvcgHd3pR31taP7SHQHxb-ob4OSLASmtPZeBIjorJmy5t1zKQ1WnqvuyucDaSy6moG",
-  //   notification: {
-  //     title: "test Notificatio",
-  //     body: "notification message",
-  //   },
-  //   data: {
-  //     orderId: "123545",
-  //     orderDate: "2022-10-20",
-  //   },
-  // };
-  // FCM.send(message, function (err, resp) {
-  //   if (err) {
-  //     return res.status(500).json({ message: err });
-  //   } else {
-  //     return res.status(200).json({ message: "notification send", resp });
-  //   }
-  // });
+        await messaging
+          .send(message)
+          .then((response) => {
+            // Response is a message ID string.
+            console.log("Successfully sent message:", response);
+            return res.status(200).json({ message: "successfully", response });
+          })
+          .catch((error) => {
+            console.log("Error sending message:", error);
+            return;
+          });
+      },
+      {
+        scheduled: true,
+        timezone: "America/Sao_Paulo",
+      }
+    );
+  }
 });
 
 module.exports = sendPushNotification;
