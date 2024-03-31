@@ -1,16 +1,15 @@
 const admin = require("firebase-admin");
-const fcm = require("fcm-node");
-const serviceAccount = require("../test.json");
 const asynchandler = require("express-async-handler");
 const cron = require("node-cron");
 const { Medicin } = require("../model/medicine");
+
+const serviceAccount = require("../test.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   projectID: "testt - 24942",
 });
-
-// var FCM = new fcm(serviceAccount.private_key);
-sendPushNotification = asynchandler(async (req, res) => {
+const messaging = admin.messaging();
+const sendPushNotification = asynchandler(async (req, res) => {
   const registrationToken = req.body.token;
   const medicin = await Medicin.findById(req.params.id);
   const flag = medicin.EnableNotification;
@@ -30,23 +29,19 @@ sendPushNotification = asynchandler(async (req, res) => {
     const repeat = 24 / medicin.repeat;
     console.log(repeat);
     cron.schedule(
-      "0 */${repeat} * * *",
+      `0 */${repeat} * * *`,
       async () => {
         console.log(repeat);
         console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
-        var messaging = admin.messaging();
 
-        await messaging
-          .send(message)
-          .then((response) => {
-            // Response is a message ID string.
-            console.log("Successfully sent message:", response);
-            return res.status(200).json({ message: "successfully", response });
-          })
-          .catch((error) => {
-            console.log("Error sending message:", error);
-            return;
-          });
+        try {
+          const response = await messaging.send(message);
+          console.log("Successfully sent message:", response);
+          return res.status(200).json({ message: "successfully", response });
+        } catch (error) {
+          console.log("Error sending message:", error);
+          return res.status(500).json({ message: "error", error });
+        }
       },
       {
         scheduled: true,
