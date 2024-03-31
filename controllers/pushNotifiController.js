@@ -30,7 +30,7 @@ sendPushNotification = asynchandler(async (req, res) => {
     const repeat = 24 / medicin.repeat;
     console.log(repeat);
     cron.schedule(
-      "* */${repeat} * * *",
+      "0 */${repeat} * * *",
       async () => {
         console.log(repeat);
         console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
