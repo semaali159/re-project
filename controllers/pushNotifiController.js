@@ -8,6 +8,8 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   projectID: "testt - 24942",
 });
+const messaging = admin.messaging();
+
 const sendPushNotification = asynchandler(async (req, res) => {
   const registrationToken = req.body.token;
   const medicin = await Medicin.findById(req.params.id);
@@ -26,7 +28,6 @@ const sendPushNotification = asynchandler(async (req, res) => {
       },
       token: registrationToken,
     };
-    const messaging = admin.messaging();
     const repeat = 24 / medicin.repeat;
     console.log(repeat);
     cron.schedule(
@@ -35,14 +36,16 @@ const sendPushNotification = asynchandler(async (req, res) => {
         console.log(repeat);
         console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
-        try {
-          const response = await messaging.send(message);
-          console.log("Successfully sent message:", response);
-          return res.status(200).json({ message: "successfully", response });
-        } catch (error) {
-          console.log("Error sending message:", error);
-          return res.status(500).json({ message: "error", error });
-        }
+        messaging
+          .send(message)
+          .then((response) => {
+            // Response is a message ID string.
+            console.log("Successfully sent message:", response);
+            return res.status(200).json({ message: "successfully", response });
+          })
+          .catch((error) => {
+            console.log("Error sending message:", error);
+          });
       },
       {
         scheduled: true,
