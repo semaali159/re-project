@@ -26,12 +26,12 @@ const sendPushNotification = asynchandler(async (req, res) => {
       },
       token: registrationToken,
     };
+    const messaging = admin.messaging();
     const repeat = 24 / medicin.repeat;
     console.log(repeat);
     cron.schedule(
       `0 */${repeat} * * *`,
       async () => {
-        const messaging = admin.messaging();
         console.log(repeat);
         console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
