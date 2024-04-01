@@ -12,7 +12,6 @@ const sendPushNotification = asynchandler(async (req, res) => {
   const registrationToken = req.body.token;
   const medicin = await Medicin.findById(req.params.id);
   const flag = medicin.EnableNotification;
-  const messaging = admin.messaging();
 
   console.log(flag);
   if (flag) {
@@ -32,6 +31,7 @@ const sendPushNotification = asynchandler(async (req, res) => {
     cron.schedule(
       `0 */${repeat} * * *`,
       async () => {
+        const messaging = admin.messaging();
         console.log(repeat);
         console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
