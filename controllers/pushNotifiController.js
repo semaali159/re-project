@@ -8,11 +8,12 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   projectID: "testt - 24942",
 });
-const messaging = admin.messaging();
 const sendPushNotification = asynchandler(async (req, res) => {
   const registrationToken = req.body.token;
   const medicin = await Medicin.findById(req.params.id);
   const flag = medicin.EnableNotification;
+  const messaging = admin.messaging();
+
   console.log(flag);
   if (flag) {
     const message = {
