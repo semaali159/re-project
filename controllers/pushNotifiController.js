@@ -28,6 +28,7 @@ const sendPushNotification = asynchandler(async (req, res) => {
       },
       token: registrationToken,
     };
+    // `0 */${repeat} * * *`
     const repeat = 24 / medicin.repeat;
     console.log(repeat);
     cron.schedule(
@@ -36,7 +37,7 @@ const sendPushNotification = asynchandler(async (req, res) => {
         console.log(repeat);
         console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
-        messaging
+        await messaging
           .send(message)
           .then((response) => {
             // Response is a message ID string.
