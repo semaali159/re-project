@@ -40,18 +40,17 @@ const sendPushNotification = async (req, res) => {
           console.log(repeat);
           console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
-          await messaging
-            .send(message)
-            .then((response) => {
-              // Response is a message ID string.
-              console.log("Successfully sent message:", response);
-              return res
-                .status(200)
-                .json({ message: "successfully", response });
-            })
-            .catch((error) => {
-              console.log("Error sending message:", error);
-            });
+          await messaging.send(message);
+          // .then((response) => {
+          //   // Response is a message ID string.
+          //   console.log("Successfully sent message:", response);
+          //   return res
+          //     .status(200)
+          //     .json({ message: "successfully", response });
+          // })
+          // .catch((error) => {
+          //   console.log("Error sending message:", error);
+          // });
         },
         {
           scheduled: true,
@@ -59,7 +58,7 @@ const sendPushNotification = async (req, res) => {
         }
       );
     }
-    // return res.status(200).json({ message: "sucess" });
+    return res.status(200).json({ message: "sucess" });
   } catch (e) {
     res.status(400).json({ message: e.message, success: false });
   }
