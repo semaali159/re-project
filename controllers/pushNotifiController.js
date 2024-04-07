@@ -36,11 +36,11 @@ const sendPushNotification = async (req, res) => {
       console.log(repeat);
       schedule.scheduleJob(
         `0 */${repeat} * * *`,
-        async () => {
+        () => {
           console.log(repeat);
           console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
-          await messaging
+          messaging
             .send(message)
             .then((response) => {
               // Response is a message ID string.
