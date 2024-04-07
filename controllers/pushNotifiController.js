@@ -34,13 +34,13 @@ const sendPushNotification = async (req, res) => {
       // `0 */${repeat} * * *`
       const repeat = 24 / medicin.repeat;
       console.log(repeat);
-      schedule.scheduleJob(
+      cron.schedule(
         `0 */${repeat} * * *`,
-        () => {
+        async () => {
           console.log(repeat);
           console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
-          messaging
+          await messaging
             .send(message)
             .then((response) => {
               // Response is a message ID string.
@@ -59,9 +59,9 @@ const sendPushNotification = async (req, res) => {
         }
       );
     }
-    return res.status(200).json({ message: "sucess" });
+    // return res.status(200).json({ message: "sucess" });
   } catch (e) {
-    return res.status(400).json({ message: e.message, success: false });
+    res.status(400).json({ message: e.message, success: false });
   }
 };
 
