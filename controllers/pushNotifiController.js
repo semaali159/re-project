@@ -34,7 +34,7 @@ const sendPushNotification = async (req, res) => {
       // `0 */${repeat} * * *`
       const repeat = 24 / medicin.repeat;
       console.log(repeat);
-      cron.schedule(
+      schedule.scheduleJob(
         `0 */${repeat} * * *`,
         async () => {
           console.log(repeat);
