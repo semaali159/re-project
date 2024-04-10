@@ -10,3 +10,5 @@ module.exports = router;
 //   authDomain: "https://accounts.google.com/o/oauth2/auth",
 //   projectId: "project-5e3f1",
 // };
+
+// module.exports = router;
