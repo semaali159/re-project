@@ -35,26 +35,19 @@ const sendPushNotification = async (req, res) => {
       const repeat = 24 / medicin.repeat;
       console.log(repeat);
       cron.schedule(
-        `*/${repeat}  * * * *`,
+        `*/${repeat} * * * *`,
         async () => {
+          await messaging.send(message).then((response) => {
+            // Response is a message ID string.
+            console.log("Successfully sent message:", response);
+            console.log(`cron function executed at ${date.now}`);
+
+            console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
+          });
+
           console.log(repeat);
+
           console.log(`cron function executed at ${date.now}`);
-
-          console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
-
-          await messaging.send(message);
-          console.log(`cron function executed at ${date.now}`);
-
-          // .then((response) => {
-          //   // Response is a message ID string.
-          //   console.log("Successfully sent message:", response);
-          //   return res
-          //     .status(200)
-          //     .json({ message: "successfully", response });
-          // })
-          // .catch((error) => {
-          //   console.log("Error sending message:", error);
-          // });
         },
         {
           scheduled: true,
