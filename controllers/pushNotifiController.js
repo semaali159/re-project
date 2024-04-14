@@ -35,7 +35,7 @@ const sendPushNotification = async (req, res) => {
       const repeat = 24 / medicin.repeat;
       console.log(repeat);
       cron.schedule(
-        `*/${repeat} * * * *`,
+        `0 */${repeat} * * *`,
         async () => {
           await messaging.send(message).then((response) => {
             // Response is a message ID string.
