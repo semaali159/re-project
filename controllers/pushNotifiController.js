@@ -39,9 +39,12 @@ const sendPushNotification = async (req, res) => {
         async () => {
           console.log(repeat);
           console.log(`cron function executed at ${date.now}`);
+
           console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
 
           await messaging.send(message);
+          console.log(`cron function executed at ${date.now}`);
+
           // .then((response) => {
           //   // Response is a message ID string.
           //   console.log("Successfully sent message:", response);
