@@ -24,7 +24,7 @@ const sendPushNotification = async (req, res) => {
       const message = {
         notification: {
           title: "اشعاراااات  حبييييب",
-          body: "اشعار من سمى حوول",
+          body: ` please take ${medicin.medicinName}`,
         },
         data: {
           score: "850",
