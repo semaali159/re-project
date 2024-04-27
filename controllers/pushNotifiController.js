@@ -13,6 +13,8 @@ admin.initializeApp({
 
 const sendPushNotification = async (req, res) => {
   try {
+    const currentTime = Date.now();
+    const date = new Date(currentTime);
     const registrationToken = req.body.token;
     const medicin = await Medicin.findById(req.params.id);
     console.log(medicin.EnableNotification);
@@ -23,7 +25,7 @@ const sendPushNotification = async (req, res) => {
     if (flag) {
       const message = {
         notification: {
-          title: "اشعاراااات  حبييييب",
+          title: "Enaya",
           body: ` please take ${medicin.medicinName}`,
         },
         data: {
@@ -35,20 +37,21 @@ const sendPushNotification = async (req, res) => {
       // `0 */${repeat} * * *`
       const repeat = 24 / medicin.repeat;
       console.log(repeat);
-      cron.schedule(
+      task = cron.schedule(
         `0 */${repeat} * * *`,
         async () => {
-          await messaging.send(message).then((response) => {
-            // Response is a message ID string.
-            // console.log("Successfully sent message:", response);
-            console.log(`cron function executed at ${date.now}`);
+          if (date < medicin.endDate) {
+            await messaging.send(message).then((response) => {
+              console.log(`cron function executed at ${date}`);
+            });
 
-            // console.log("Running a job at 01:00 at America/Sao_Paulo timezone");
-          });
-
-          console.log(repeat);
-
-          console.log(`cron function executed at ${date.now}`);
+            console.log(repeat);
+            console.log(medicin.endDate);
+            console.log(`cron function executed at ${date}`);
+          } else {
+            console.log("wee");
+            task.destroy();
+          }
         },
         {
           scheduled: true,
