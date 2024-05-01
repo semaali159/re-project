@@ -3,8 +3,8 @@ const asynchandler = require("express-async-handler");
 const cron = require("node-cron");
 const schedule = require("node-schedule");
 const { Medicin } = require("../model/medicine");
-const serviceAccount = require("../test.json");
-// const serviceAccount = require("../tests.json");
+// const serviceAccount = require("../test.json");
+const serviceAccount = require("../tests.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
