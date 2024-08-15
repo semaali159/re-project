@@ -19,12 +19,11 @@ router
   .put(verifyToken, updatemedicin);
 router
   .route("/")
-  .get(verifyToken, getMedicinByDate)
-  .post(verifyToken, addMedicin);
+  .post(verifyToken, addMedicin)
+  .get(verifyToken, getMedicinByDate);
 // router.get("/", verifyToken, getMedicinByDate);
 // router.post("/", verifyToken, addMedicin);
 // router.put("/:id", verifyToken, updatemedicin);
 // router.delete("/:id", verifyToken, deleteMedicin);
 // router.get("/id", verifyToken, getAllMedicin);
 module.exports = router;
-

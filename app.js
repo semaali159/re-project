@@ -22,6 +22,7 @@ app.use("/api/profile", require("./routes/profile"));
 app.use("/api/medicin", require("./routes/medicin"));
 app.use("/api/activity", require("./routes/activity"));
 app.use("/api/notification", require("./routes/notification"));
+app.use("/api/disease", require("./routes/diseases"));
 app.get("/test", (req, res) => {
   res.send("hello");
 });
