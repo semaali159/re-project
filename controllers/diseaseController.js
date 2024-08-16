@@ -17,6 +17,7 @@ const addDisease = asynchandler(async (req, res) => {
     steps: req.body.steps,
     image: req.body.image,
     advice: req.body.advice,
+    toolImage: req.body.toolImage,
   });
   await disease.save();
   return res

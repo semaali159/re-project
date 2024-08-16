@@ -23,6 +23,9 @@ const diseaseSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    toolImage: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
@@ -33,6 +36,7 @@ function validateAddDisease(obj) {
     image: Joi.string().required(),
     steps: Joi.array().min(3),
     advice: Joi.array(),
+    toolImage: Joi.string(),
   });
   return schema.validate(obj);
 }
