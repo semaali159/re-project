@@ -79,7 +79,8 @@ const getAllMedicin = asynchandler(async (req, res) => {
   }
 });
 const getMedicinByDate = asynchandler(async (req, res) => {
-  const token = req.headers.token;
+  const auth = req.headers.authorization;
+  const token = auth.split(" ")[1];
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   const c_id = decoded.id;
   const currentTime = Date.now();
