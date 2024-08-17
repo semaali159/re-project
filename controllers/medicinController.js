@@ -125,8 +125,8 @@ const getMedicinByDate = asynchandler(async (req, res) => {
   const currentTime = Date.now();
   const date = new Date(currentTime);
   //console.log(date.format("dddd"));
-  const medicins = await Medicin.find(
-    { elderly: c_id }.select("elderly medicinName description endDate")
+  const medicins = await Medicin.find({ elderly: c_id }).select(
+    "elderly medicinName description endDate"
   );
   // const endDate = activities.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });
