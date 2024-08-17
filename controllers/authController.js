@@ -33,7 +33,10 @@ const register = asynchandler(async (req, res) => {
     age: req.body.age,
     diseases: req.body.diseases,
     otpnum: parseInt(req.body.otpnum),
+    fcmToken: [req.body.fcmToken],
+    repeat: req.body.repeat,
   });
+
   function generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -72,6 +75,14 @@ const login = asynchandler(async (req, res) => {
     if (!isPasswordMatch) {
       return res.status(400).json({ message: "invalid password" });
     }
+    const NewFcmToken = req.body.fcmToken;
+    const fcmToken = elderly.fcmToken;
+    if (NewFcmToken) {
+      if (!fcmToken.includes(NewFcmToken)) {
+        fcmToken.push(NewFcmToken);
+      }
+    }
+    await elderly.save();
     const token = elderly.generateToken();
     const { password, ...other } = elderly._doc;
     return res.status(201).json({ ...other, token });

@@ -63,7 +63,10 @@ const elderlySchema = new mongoose.Schema(
       default: false,
     },
     fcmToken: {
-      type: String,
+      type: [String],
+    },
+    repeat: {
+      type: Number,
     },
   },
   { timestamps: true }
@@ -87,6 +90,8 @@ function validateRegister(obj) {
     diseases: Joi.array().items(Joi.string()),
     otpnum: Joi.number(),
     verified: Joi.boolean(),
+    repeat: Joi.number(),
+    fcmToken: Joi.string().required(),
   });
   return schema.validate(obj);
 }
@@ -95,6 +100,7 @@ function validateLogin(obj) {
   const schema = Joi.object({
     email: Joi.string().trim().min(5).max(100).required().email(),
     password: Joi.string().trim().min(6).required(),
+    fcmToken: Joi.string().required(),
   });
   return schema.validate(obj);
 }

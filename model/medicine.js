@@ -30,9 +30,8 @@ const MedicinSchema = new mongoose.Schema(
     repeat: {
       type: Number,
     },
-    EnableNotification: {
-      type: Boolean,
-    },
+    reminderTimes: { type: [Date] },
+    EnableNotification: { type: Boolean },
   },
   { timestamps: true }
 );
@@ -43,7 +42,6 @@ function validateAddMedicin(obj) {
   const schema = Joi.object({
     medicinName: Joi.string().min(3).max(30).required(),
     description: Joi.string().min(3).max(200).required(),
-    startDate: Joi.date(),
     endDate: Joi.date().required(),
     repeat: Joi.number(),
     EnableNotification: Joi.boolean(),

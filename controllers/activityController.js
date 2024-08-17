@@ -4,7 +4,7 @@ const {
   validateAddActivity,
   validateUpdateActivity,
 } = require("../model/activity");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 const getAllActivity = asynchandler(async (req, res) => {
   // const token = req.headers.token;
   // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -33,7 +33,11 @@ const addActivity = asynchandler(async (req, res) => {
     elderly: req.user.id,
   });
   const result = await activity.save();
-  return res.status(201).json(result);
+  // Convert result to an object and remove reminderTimes
+  const response = result.toObject();
+  delete response.reminderTimes;
+
+  return res.status(201).json(response);
 });
 /**
  * @desc get medicin for home
@@ -88,7 +92,21 @@ const updateActivity = asynchandler(async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json(updateActivity);
+    await updateActivity.save();
+    let reminderTime;
+    if (req.body.endDate || req.body.repeat) {
+      reminderTime = calculateReminderTimes(
+        updateActivity.createdAt,
+        updateActivity.endDate,
+        updateActivity.repeat
+      );
+    }
+    updateActivity.reminderTimes = reminderTime;
+    const result = await updateActivity.save();
+    const response = result.toObject();
+    delete response.reminderTimes;
+
+    return res.status(200).json(response);
   } else {
     return res.status(404).json({ message: "this activity is not found" });
   }

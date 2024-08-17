@@ -16,11 +16,9 @@ router
   .route("/:id")
   .get(verifyTokenAndOnlyUser, getAllMedicin)
   .delete(verifyToken, deleteMedicin)
-  .put(verifyToken, updatemedicin);
-router
-  .route("/")
-  .post(verifyToken, addMedicin)
-  .get(verifyToken, getMedicinByDate);
+  .put(verifyToken, updatemedicin)
+  .post(verifyTokenAndOnlyUser, addMedicin);
+router.route("/").get(verifyToken, getMedicinByDate);
 // router.get("/", verifyToken, getMedicinByDate);
 // router.post("/", verifyToken, addMedicin);
 // router.put("/:id", verifyToken, updatemedicin);
