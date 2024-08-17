@@ -12,7 +12,7 @@ const getAllActivity = asynchandler(async (req, res) => {
   // console.log(decoded);
   const c_id = req.params.id;
   const activities = await Activity.find({ elderly: c_id }).select(
-    "elderly medicinName description"
+    "-reminderTimes"
   );
   console.log(c_id);
   if (activities) {
@@ -65,7 +65,7 @@ const getActivityByDate = asynchandler(async (req, res) => {
   const currentTime = Date.now();
   const date = new Date(currentTime);
   const activities = await Activity.find({ elderly: c_id }).select(
-    "elderly medicinName description endDate"
+    "-reminderTimes"
   );
   const endDate = activities.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });

@@ -103,7 +103,7 @@ const updatemedicin = asynchandler(async (req, res) => {
 const getAllMedicin = asynchandler(async (req, res) => {
   const c_id = req.params.id;
   const medicins = await Medicin.find({ elderly: c_id }).select(
-    "elderly medicinName description"
+    "-reminderTimes"
   );
   console.log(c_id);
 
@@ -126,7 +126,7 @@ const getMedicinByDate = asynchandler(async (req, res) => {
   const date = new Date(currentTime);
   //console.log(date.format("dddd"));
   const medicins = await Medicin.find({ elderly: c_id }).select(
-    "elderly medicinName description endDate"
+    "-reminderTimes"
   );
   // const endDate = activities.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });
