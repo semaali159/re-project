@@ -16,11 +16,10 @@ router
   .route("/:id")
   .get(verifyTokenAndOnlyUser, getAllActivity)
   .delete(verifyToken, deleteActiviy)
-  .put(verifyToken, updateActivity);
-router
-  .route("/")
-  .get(verifyToken, getActivityByDate)
-  .post(verifyToken, addActivity);
+  .put(verifyToken, updateActivity)
+  .post(verifyTokenAndOnlyUser, addActivity);
+router.route("/").get(verifyToken, getActivityByDate);
+
 // router.get("/", verifyToken, getMedicinByDate);
 // router.post("/", verifyToken, addMedicin);
 // router.put("/:id", verifyToken, updatemedicin);
