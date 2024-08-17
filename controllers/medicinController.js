@@ -149,6 +149,12 @@ const getMedicinByDate = asynchandler(async (req, res) => {
   }
 });
 const deleteMedicin = asynchandler(async (req, res) => {
+  const id = await Medicin.findById(req.params.id).select("elderly");
+  if (!(req.user.id == id.elderly.toString())) {
+    return res
+      .status(401)
+      .json({ message: "not not allowed, only user himself" });
+  }
   const medicin = await Medicin.findById(req.params.id);
   if (medicin) {
     await Medicin.findByIdAndDelete(req.params.id);

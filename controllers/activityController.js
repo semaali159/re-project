@@ -31,7 +31,16 @@ const addActivity = asynchandler(async (req, res) => {
     startDate: req.body.startDate,
     endDate: Date.parse(req.body.endDate),
     elderly: req.user.id,
+    repeat: req.body.repeat,
+    EnableNotification: req.body.EnableNotification,
   });
+  await activity.save();
+  const reminderTime = calculateReminderTimes(
+    activity.createdAt,
+    activity.endDate,
+    activity.repeat
+  );
+  activity.reminderTimes = reminderTime;
   const result = await activity.save();
   // Convert result to an object and remove reminderTimes
   const response = result.toObject();
@@ -75,6 +84,12 @@ const updateActivity = asynchandler(async (req, res) => {
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
+  const id = await Activity.findById(req.params.id).select("elderly");
+  if (!(req.user.id == id.elderly.toString())) {
+    return res
+      .status(401)
+      .json({ message: "not not allowed, only user himself" });
+  }
   const updactivity = await Activity.findById(req.params.id);
   if (updactivity) {
     let previousEndDate = updactivity.endDate;
@@ -88,6 +103,7 @@ const updateActivity = asynchandler(async (req, res) => {
           endDate: req.body.endDate
             ? Date.parse(req.body.endDate)
             : previousEndDate,
+          repeat: req.body.repeat,
         },
       },
       { new: true }
@@ -118,6 +134,12 @@ const updateActivity = asynchandler(async (req, res) => {
  * @access private (only user)
  * */
 const deleteActiviy = asynchandler(async (req, res) => {
+  const id = await Activity.findById(req.params.id).select("elderly");
+  if (!(req.user.id == id.elderly.toString())) {
+    return res
+      .status(401)
+      .json({ message: "not not allowed, only user himself" });
+  }
   const activity = await Activity.findById(req.params.id);
   if (activity) {
     await Activity.findByIdAndDelete(req.params.id);

@@ -2,9 +2,16 @@ const express = require("express");
 require("dotenv").config();
 const connectToDB = require("./conf/db");
 const cors = require("cors");
+const {
+  scheduleMedicinNotifications,
+  scheduleActivityNotifications,
+} = require("./utils/sendNoti");
 const { notFound, errorHandler } = require("./middleware/errors");
 //connection to database
 connectToDB();
+//send notification
+scheduleMedicinNotifications();
+scheduleActivityNotifications();
 //init app
 const app = express();
 app.use(
@@ -21,7 +28,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/profile", require("./routes/profile"));
 app.use("/api/medicin", require("./routes/medicin"));
 app.use("/api/activity", require("./routes/activity"));
-app.use("/api/notification", require("./routes/notification"));
+// app.use("/api/notification", require("./routes/notification"));
 app.use("/api/disease", require("./routes/diseases"));
 app.use("/api/dailyHealth", require("./routes/dailyHealth"));
 app.get("/test", (req, res) => {
