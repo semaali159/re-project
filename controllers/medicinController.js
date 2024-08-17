@@ -101,28 +101,19 @@ const updatemedicin = asynchandler(async (req, res) => {
   }
 });
 const getAllMedicin = asynchandler(async (req, res) => {
-  // const token = req.headers.token;
-  // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  // console.log(decoded);
-
   const c_id = req.params.id;
-  const medicins = await Medicin.find({ elderly: c_id });
+  const medicins = await Medicin.find({ elderly: c_id }).select(
+    "elderly medicinName description"
+  );
   console.log(c_id);
 
   if (medicins) {
-    cron.schedule(
-      "* * * * *",
-      () => {
-        console.log("hello from schedual");
-      },
-      {
-        scheduled: true,
-      }
-    );
+    // const response = result.toObject();
+    // delete response.reminderTimes;
     return res.status(200).json(medicins);
   } else {
     return res
-      .status(400)
+      .status(404)
       .json({ message: "No medicins have been added yet " });
   }
 });
@@ -134,7 +125,9 @@ const getMedicinByDate = asynchandler(async (req, res) => {
   const currentTime = Date.now();
   const date = new Date(currentTime);
   //console.log(date.format("dddd"));
-  const medicins = await Medicin.find({ elderly: c_id });
+  const medicins = await Medicin.find(
+    { elderly: c_id }.select("elderly medicinName description endDate")
+  );
   // const endDate = activities.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });
   const homeMed = await medicins.filter(

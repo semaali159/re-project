@@ -5,12 +5,15 @@ const {
   validateUpdateActivity,
 } = require("../model/activity");
 const jwt = require("jsonwebtoken");
+const calculateReminderTimes = require("../utils/calReminder");
 const getAllActivity = asynchandler(async (req, res) => {
   // const token = req.headers.token;
   // const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
   // console.log(decoded);
   const c_id = req.params.id;
-  const activities = await Activity.find({ elderly: c_id });
+  const activities = await Activity.find({ elderly: c_id }).select(
+    "elderly medicinName description"
+  );
   console.log(c_id);
   if (activities) {
     return res.status(200).json(activities);
@@ -60,7 +63,9 @@ const getActivityByDate = asynchandler(async (req, res) => {
   const c_id = decoded.id;
   const currentTime = Date.now();
   const date = new Date(currentTime);
-  const activities = await Activity.find({ elderly: c_id });
+  const activities = await Activity.find({ elderly: c_id }).select(
+    "elderly medicinName description endDate"
+  );
   const endDate = activities.endDate;
   // const homeMed = await medicins.find({ endDate: { $gt: date } });
   const homeAct = await activities.filter(
